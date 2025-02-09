@@ -6,25 +6,33 @@ services:
     container_name: postgres_container
     restart: always
     environment:
-      POSTGRES_USER: myuser
-      POSTGRES_PASSWORD: mypassword
-      POSTGRES_DB: mydatabase
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: household_expenses
     ports:
-      - "5432:5432"
+      - "54320:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres", "-d", "household_expenses"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
 
   api:
     build: .
-    container_name: dotnet_api_container
+    container_name: dotnet_api
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     environment:
-      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=mydatabase;Username=myuser;Password=mypassword
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=household_expenses;Username=postgres;Password=root
     ports:
-      - "5278:5278"
+      - "5555:5555"
     volumes:
       - .:/app
-
+   
 volumes:
   postgres_data:
