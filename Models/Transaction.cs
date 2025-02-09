@@ -10,7 +10,7 @@ namespace HouseholdExpenses.Models
         public string Type { get; set; } = string.Empty; // "income" or "expense"
         public int PersonId { get; set; }
 
-         [JsonIgnore]
+        [JsonIgnore]
         public Person? Person { get; set; }
     }
 }

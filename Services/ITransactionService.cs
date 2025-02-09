@@ -8,5 +8,5 @@ namespace HouseholdExpenses.Services
         Task AddAsync(Transaction transaction);
     }
 
-    
+
 }
