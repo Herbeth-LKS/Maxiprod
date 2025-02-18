@@ -8,7 +8,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Maxiprod.Migrations
+namespace Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20250208004338_InitialCreate")]
